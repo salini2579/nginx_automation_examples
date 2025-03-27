@@ -12,5 +12,5 @@ variable "create_iam_resources" {
 variable "aws_region" {
   description = "aws region"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-south-1"
 }
