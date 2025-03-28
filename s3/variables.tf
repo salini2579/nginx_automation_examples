@@ -1,7 +1,7 @@
 variable "tf_state_bucket" {
   type        = string
   description = "S3 bucket for Terraform state"
-  default     = "salini-test"
+  default     = var.s3_bucket_name
 }
 variable "create_iam_resources" {
   description = "Whether to create IAM resources (role and policy)."
@@ -12,5 +12,7 @@ variable "create_iam_resources" {
 variable "aws_region" {
   description = "aws region"
   type        = string
-  default     = "ap-south-1"
+}
+variable "s3_bucket_name" {
+  type = string
 }
