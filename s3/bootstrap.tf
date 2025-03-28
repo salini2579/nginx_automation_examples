@@ -49,7 +49,8 @@ locals {
   )
   
   # Generate unique bucket name if needed
-  unique_bucket_name = "${var.tf_state_bucket}-${data.aws_caller_identity.current.account_id}"
+#  unique_bucket_name = "${var.tf_state_bucket}-${data.aws_caller_identity.current.account_id}"
+  unique_bucket_name = "${var.tf_state_bucket}"
 }
 
 # S3 Bucket Resources
