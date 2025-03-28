@@ -103,7 +103,7 @@ Modify the `S3/variable.tf` file inside the `S3 directory`:
 
 ### Example Configuration:
 ```hcl
-variable "tf_state_bucket" {
+variable "var.s3_bucket_name" {
   type        = string
   description = "S3 bucket for Terraform state"
   default     = "your-unique-bucket-name" 

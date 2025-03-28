@@ -3,7 +3,7 @@
 data "external" "bucket_check" {
   program = ["bash", "-c", <<EOT
     # Ensure consistent JSON output
-    output=$(aws s3api head-bucket --bucket ${var.tf_state_bucket} --region ${var.aws_region} 2>&1)
+    output=$(aws s3api head-bucket --bucket ${var.s3_bucket_name} --region ${var.aws_region} 2>&1)
     status=$?
     
     if [ $status -eq 0 ]; then
@@ -49,8 +49,8 @@ locals {
   )
   
   # Generate unique bucket name if needed
-#  unique_bucket_name = "${var.tf_state_bucket}-${data.aws_caller_identity.current.account_id}"
-  unique_bucket_name = "${var.tf_state_bucket}"
+#  unique_bucket_name = "${var.s3_bucket_name}-${data.aws_caller_identity.current.account_id}"
+  unique_bucket_name = "${var.s3_bucket_name}"
 }
 
 # S3 Bucket Resources
