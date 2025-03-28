@@ -6,4 +6,3 @@ data "terraform_remote_state" "infra" {
     region = "ap-south-1"                     # AWS region
   }
 }
-
