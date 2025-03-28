@@ -95,8 +95,8 @@ This workflow requires the following secrets to be configured in your GitHub rep
 Rename `infra/terraform.tfvars.examples` to `infra/terraform.tfvars` and add the following data:
   * project_prefix  = "Your project identifier name in **lower case** letters only - this will be applied as a prefix to all assets"
   * resource_owner = "Your-name"
-  * aws_region     = "AWS Region" ex. us-east-1
-  * azs            = ["us-east-1a", "us-east1b"] - Change to Correct Availability Zones based on selected Region
+  * aws_region     = "AWS Region" ex. ap-south-1
+  * azs            = ["ap-south-1a", "us-east1b"] - Change to Correct Availability Zones based on selected Region
 
 ### STEP 3: Modify variable.tf
 Modify the `S3/variable.tf` file inside the `S3 directory`:
@@ -119,7 +119,7 @@ terraform {
   backend "s3" {
     bucket         = "your-unique-bucket-name"       # Your S3 bucket name
     key            = "infra/terraform.tfstate"       # Path to state file
-    region         = "us-east-1"                     # AWS region
+    region         = "ap-south-1"                     # AWS region
     dynamodb_table = "terraform-lock-table"          # DynamoDB table for state locking
     encrypt        = true                        
   }
@@ -143,7 +143,7 @@ data "terraform_remote_state" "infra" {
   config = {
     bucket         = "your-unique-bucket-name"   # Your S3 bucket name
     key            = "infra/terraform.tfstate"  # Path to your state file
-    region         = "us-east-1"                # AWS region
+    region         = "ap-south-1"                # AWS region
   }
 }
 ```

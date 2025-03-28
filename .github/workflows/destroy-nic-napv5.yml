@@ -5,7 +5,7 @@ on:
       - destroy-nic-napv5
   pull_request:
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-south-1
 jobs:
   terraform_arcadia:
     name: "Destroy Arcadia WebApp"
