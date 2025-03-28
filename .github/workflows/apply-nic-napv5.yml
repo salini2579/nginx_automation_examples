@@ -3,8 +3,8 @@ on:
   push:
     branches: apply-nic-napv5
 env:
-  aws_region: ${{secrets.AWS_REGION}}
-  s3_bucket_name: ${{secrets.S3_BUCKET_NAME}}
+  aws_region: ${{secrets.TF_VAR_AWS_REGION}}
+  s3_bucket_name: ${{secrets.TF_VAR_S3_BUCKET_NAME}}
 
 jobs:
   terraform_bootstrap:

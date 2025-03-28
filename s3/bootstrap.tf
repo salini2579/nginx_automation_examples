@@ -48,16 +48,16 @@ locals {
     false
   )
   
-  # Generate unique bucket name if needed
-#  unique_bucket_name = "${var.s3_bucket_name}-${data.aws_caller_identity.current.account_id}"
-  unique_bucket_name = "${var.s3_bucket_name}"
+#  # Generate unique bucket name if needed
+##  unique_bucket_name = "${var.s3_bucket_name}-${data.aws_caller_identity.current.account_id}"
+#  unique_bucket_name = "${var.s3_bucket_name}"
 }
 
 # S3 Bucket Resources
 resource "aws_s3_bucket" "terraform_state" {
   count = local.bucket_exists ? 0 : 1
 
-  bucket        = local.unique_bucket_name
+  bucket        = var.s3_bucket_name
   force_destroy = false
 
   tags = {
