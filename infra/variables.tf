@@ -8,7 +8,6 @@ variable "project_prefix" {
 variable "aws_region" {
   description = "aws region"
   type        = string
-  default     = "ap-south-1"
 }
 variable "resource_owner" {
   type        = string
@@ -55,4 +54,6 @@ variable "int_address_prefixes" {
   default     = ["10.1.20.0/24", "10.1.120.0/24"]
   description = "Internal subnet address prefixes"
 }
-
+variable "s3_bucket_name" {
+  type = string
+}
