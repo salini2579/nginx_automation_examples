@@ -56,4 +56,7 @@ variable "int_address_prefixes" {
   description = "Internal subnet address prefixes"
 }
 
+variable "s3_bucket_name" {
+  type = string
+}
 

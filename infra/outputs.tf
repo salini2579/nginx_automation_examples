@@ -126,7 +126,9 @@ output "internal_sg_id" {
   value = aws_security_group.internal.id
 }
 
-
+output "s3_bucket_name" {
+  value = var.s3_bucket_name
+}
 
 
 

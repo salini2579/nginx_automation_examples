@@ -2,5 +2,6 @@ project_prefix = "salini-ngx"   #"Your project identifier name in lowercase lett
 resource_owner = "salini"
 aws_region = "ap-south-1"
 azs = ["ap-south-1a", "ap-south-1b"]
+s3_bucket_name = "salini_nginx"
 
 

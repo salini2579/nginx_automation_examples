@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "salini-ngx"       # Your S3 bucket name
+    bucket         = var.s3_bucket_name     # Your S3 bucket name
     key            = "infra/terraform.tfstate"       # Path to state file
-    region         = "us-east-1"                     # AWS region
+    region         = var.aws_region              # AWS region
     dynamodb_table = "terraform-lock-table"          # DynamoDB table for state locking
     encrypt        = true                        
   }
