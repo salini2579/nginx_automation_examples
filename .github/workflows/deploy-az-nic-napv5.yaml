@@ -24,23 +24,17 @@ jobs:
 #          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 
-#          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#          tenant_id: ${{ secrets.AZURE_SUBSCRIPTION_TENANT_ID }}
-#          client_id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}
-#          client_secret : ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-#          azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
-
       - name: Set Terraform Variables
         run: |
-          echo "TF_VAR_azure_credentials={\"clientId\":\"${{ secrets.AZURE_CREDENTIALS.clientId }}\",\"clientSecret\":\"${{ secrets.AZURE_CREDENTIALS.clientSecret }}\",\"tenantId\":\"${{ secrets.AZURE_CREDENTIALS.tenantId }}\",\"subscriptionId\":\"${{ secrets.AZURE_CREDENTIALS.subscriptionId }}\"}" >> $GITHUB_ENV
+          echo "TF_VAR_azure_credentials=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
           echo "TF_VAR_azure_region=${{ secrets.AZURE_REGION }}" >> $GITHUB_ENV
         
-
 
       # Debug the environment variable
       - name: Print Azure Credentials
         run: |
-          echo "TF_VAR_azure_credentials=$TF_VAR_azure_credentials"
+          echo "Azure Client ID: $(echo $TF_VAR_azure_credentials | jq .clientId)"
+          echo "Azure Tenant ID: $(echo $TF_VAR_azure_credentials | jq .tenantId)"
 
 #      echo "TF_VAR_azure_credentials={\"clientId\":\"${{ secrets.AZURE_CREDENTIALS.clientId }}\",\"clientSecret\":\"${{ secrets.AZURE_CREDENTIALS.clientSecret }}\",\"tenantId\":\"${{ secrets.AZURE_CREDENTIALS.tenantId }}\",\"subscriptionId\":\"${{ secrets.AZURE_CREDENTIALS.subscriptionId }}\"}" >> $GITHUB_ENV
 
