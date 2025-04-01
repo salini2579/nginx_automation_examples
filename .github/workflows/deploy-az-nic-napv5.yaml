@@ -2,6 +2,9 @@ name: " Deploy NGINX NIC/NAP-V5 in Azure"
 on:
   push:
     branches: deploy-az-nic-napv5
+
+permissions:
+  id-token: write
 #env:
 #  azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
 jobs:
