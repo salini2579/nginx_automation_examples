@@ -2,8 +2,8 @@ name: " Deploy NGINX NIC/NAP-V5 in Azure"
 on:
   push:
     branches: deploy-az-nic-napv5
-env:
-  azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
+#env:
+#  azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
 jobs:
   terraform_bootstrap:
     name: "Blob Storage"
@@ -46,7 +46,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve -var="azure_region=${{ secrets.TF_VAR_AZURE_REGION }}" tfplan
 
 #  terraform_infra:
 #    name: "AWS Infra"
