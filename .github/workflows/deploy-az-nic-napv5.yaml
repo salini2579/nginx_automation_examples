@@ -48,7 +48,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform apply -auto-approve tfplan
         env:
-          azure_region=${{ secrets.TF_VAR_AZURE_REGION }}
+          TF_VAR_azure_region=${{ secrets.TF_VAR_AZURE_REGION }}
 
 #  terraform_infra:
 #    name: "AWS Infra"
