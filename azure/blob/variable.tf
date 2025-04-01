@@ -1,25 +1,25 @@
-variable "azure_subscription_id" {
+variable "subscription_id" {
   description = "Azure Subscription ID"
   type        = string
   sensitive   = true
   default     = null
 }
 
-variable "azure_subscription_tenant_id" {
+variable "tenant_id" {
   description = "Azure Tenant ID"
   type        = string
   sensitive   = true
   default     = null
 }
 
-variable "azure_service_principal_app_id" {
+variable "client_id" {
   description = "Azure Client ID"
   type        = string
   sensitive   = true
   default     = null
 }
 
-variable "azure_service_principal_password" {
+variable "client_secret" {
   description = "Azure Client Secret"
   type      = string
   sensitive = true
