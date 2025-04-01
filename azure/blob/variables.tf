@@ -28,7 +28,7 @@ variable "azure_region" {
 }
 
 variable "azure_credentials" {
-  description = "Azure Credentials"
+  description = "Azure credentials as a JSON string"
   type = string
 }
 
