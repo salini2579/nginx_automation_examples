@@ -23,7 +23,7 @@ jobs:
 #          tenant_id: ${{ secrets.AZURE_SUBSCRIPTION_TENANT_ID }}
 #          client_id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}
 #          client_secret : ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-          azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
+#          azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -33,7 +33,7 @@ jobs:
           terraform init
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out=tfplan
+        run: terraform plan -no-color -var="azure_region:${{ secrets.TF_VAR_AZURE_REGION }}" -input=false -out=tfplan
 
       - name: Check for Changes
         id: check_changes

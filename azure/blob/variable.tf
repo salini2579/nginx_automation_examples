@@ -27,5 +27,6 @@ variable "client_secret" {
 }
 
 variable "azure_region" {
+  description = "Azure Region"
   type = string
 }
