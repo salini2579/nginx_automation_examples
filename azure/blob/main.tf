@@ -1,7 +1,7 @@
 provider "azurerm" {
   features {}
-  subscription_id   = "${var.subscription-id}"
-  tenant_id         = "${var.tenant-id}"
-  client_id         = "${var.client-id}"
-  client_secret     = "${var.client-secret}"
+  subscription_id = jsondecode(var.azure_credentials)["subscriptionId"]
+  client_id       = jsondecode(var.azure_credentials)["clientId"]
+  client_secret   = jsondecode(var.azure_credentials)["clientSecret"]
+  tenant_id       = jsondecode(var.azure_credentials)["tenantId"]
 }
