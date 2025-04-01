@@ -18,10 +18,11 @@ jobs:
       - name: Configure Azure Credentials
         uses: azure/login@v2
         with:
-          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          tenant_id: ${{ secrets.AZURE_SUBSCRIPTION_TENANT_ID }}
-          client_id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}
-          client_secret : ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+#          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#          tenant_id: ${{ secrets.AZURE_SUBSCRIPTION_TENANT_ID }}
+#          client_id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}
+#          client_secret : ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
 #          azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
 
       - name: Setup Terraform
