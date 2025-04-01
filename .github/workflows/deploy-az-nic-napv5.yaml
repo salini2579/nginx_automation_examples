@@ -32,7 +32,7 @@ jobs:
       - name: Set Terraform Variables
         run: |
             echo "TF_VAR_azure_region=${{ secrets.TF_VAR_AZURE_REGION }}"" >> $GITHUB_ENV
-            echo "TF_VAR_azure_credentials=${{ secrets.AZURE_CREDENTIALS}}" >> $GITHUB_ENV`
+            echo "TF_VAR_azure_credentials=${{ secrets.AZURE_CREDENTIALS}}" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
