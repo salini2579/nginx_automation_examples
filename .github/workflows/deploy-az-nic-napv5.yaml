@@ -3,7 +3,7 @@ on:
   push:
     branches: deploy-az-nic-napv5
 env:
-  TF_VAR_AZURE_REGION: ${{ secrets.TF_VAR_AZURE_REGION }}
+  azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
 jobs:
   terraform_bootstrap:
     name: "Blob Storage"
