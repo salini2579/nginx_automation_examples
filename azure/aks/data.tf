@@ -4,6 +4,6 @@ data "terraform_remote_state" "infra" {
     resource_group_name = var.resource_group_name
     storage_account_name = var.storage_account_name
     container_name = var.container_name
-    key    = "infra/terraform.tfstate"       # Path to infra's state file
+    key    = "infra/terraform.tfstate"
   }
 }

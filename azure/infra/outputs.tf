@@ -1,10 +1,10 @@
 output "vnet_name" {
-  value       = format("%s-vnet", var.project_prefix)
+  value       = azurerm_virtual_network.az_vnet.name
   description = "Azure Virtual Network Name"
 }
 
 output "subnet_name" {
-  value       = format("%s-subnet", var.project_prefix)
+  value       = azurerm_subnet.az_subnet.name
   description = "Azure Subnet Name"
 }
 
