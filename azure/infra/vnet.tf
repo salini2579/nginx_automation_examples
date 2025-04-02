@@ -8,6 +8,6 @@ resource "azurerm_virtual_network" "az_vnet" {
 resource "azurerm_subnet" "az_subnet" {
   name                 = format("%s-subnet", var.project_prefix)
   resource_group_name  = format("%s-rg", var.project_prefix)
-  virtual_network_name = format("%s-vnet", var.project_prefix)
+  virtual_network_name = azurerm_virtual_network.az_vnet.name
   address_prefixes     = var.azure_subnet_cidr
 }
