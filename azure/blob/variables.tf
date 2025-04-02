@@ -9,6 +9,6 @@ variable "azure_region" {
 }
 
 variable "project_prefix" {
-  description = "unique name to identify resources"
+  description = "Unique name to identify the created resources"
   type = string
 }
