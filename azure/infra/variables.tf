@@ -13,6 +13,18 @@ variable "project_prefix" {
   type = string
 }
 
+variable "resource_group_name" {
+  type = string
+}
+
+variable "storage_account_name" {
+  type = string
+}
+
+variable "container_name" {
+  type = string
+}
+
 variable "azure_vnet_cidr" {
   type        = list(string)
   default     = ["192.168.0.0/16"]

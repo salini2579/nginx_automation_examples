@@ -1,8 +1,3 @@
-output "resource_group_name" {
-  value       = format("%s-rg", var.project_prefix)
-  description = "Azure Resource Group Name"
-}
-
 output "vnet_name" {
   value       = format("%s-vnet", var.project_prefix)
   description = "Azure Virtual Network Name"
@@ -21,4 +16,12 @@ output "vnet_id" {
 output "subnet_id" {
   value       = azurerm_subnet.az_subnet.id
   description = "Azure Subnet ID"
+}
+
+output "azure_vnet_cidr" {
+  value = var.azure_vnet_cidr
+}
+
+output "azure_subnet_cidr" {
+  value = var.azure_subnet_cidr
 }
