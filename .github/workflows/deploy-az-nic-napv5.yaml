@@ -6,6 +6,7 @@ env:
     TF_VAR_project_prefix : ${{ secrets.project_prefix }}
     TF_VAR_azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
     TF_VAR_azure_credentials : ${{ secrets.azure_credentials }}
+#    TF_VAR_resource_group_name : "${secrets.project_prefix}-rg"
 
 jobs:
 #  terraform_blob:
@@ -73,7 +74,7 @@ jobs:
           run: |
             terraform init \
 #              -backend-config=backend-config.tfvars
-               -backend-config="resource_group_name="${secrets.project_prefix}-rg"\
+               -backend-config="resource_group_name=${secrets.project_prefix}-rg"\
                -backend-config= "storage_account_name = ${secrets.project_prefix}nicnap"\
                -backend-config= "container_name = ${secrets.project_prefix}-container"
             
