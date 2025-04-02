@@ -1,5 +1,5 @@
 terraform {
   backend "azurerm" {
-    key                   = "infra/terraform.tfstate"
+    key  = "infra/terraform.tfstate"
   }
 }

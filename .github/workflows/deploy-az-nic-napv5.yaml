@@ -72,10 +72,10 @@ jobs:
         - name: Initialize Terraform (Azure Backend)
           run: |
             terraform init \
-              -backend-config=backend-config.tfvars
-#               -backend-config="resource_group_name=format("%s-rg",${{ secrets.project_prefix }})"\
-#               -backend-config= "storage_account_name = format("%snicnap", ${{ secrets.project_prefix }})"\
-#               -backend-config= "container_name = format("%s-container", ${{ secrets.project_prefix }}) "
+#              -backend-config=backend-config.tfvars
+               -backend-config="resource_group_name="${secrets.project_prefix}-rg"\
+               -backend-config= "storage_account_name = ${secrets.project_prefix}nicnap"\
+               -backend-config= "container_name = ${secrets.project_prefix}-container"
             
 
         - name: Terraform Plan
