@@ -75,6 +75,7 @@ jobs:
              -backend-config= "resource_group_name = format("%s-rg", ${{ secrets.project_prefix }}) " \
              -backend-config= "storage_account_name = format("%snicnap", ${{ secrets.project_prefix }}) " \
              -backend-config= "container_name = format("%s-container", ${{ secrets.project_prefix }}) "
+            
 
         - name: Terraform Plan
           if: github.event_name == 'pull_request' || github.event_name == 'push'
