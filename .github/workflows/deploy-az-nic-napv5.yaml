@@ -76,8 +76,8 @@ jobs:
           run: |
             terraform init \
             -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-            -backend-config="storage_account_name=${{ secrets.project_prefix }}nicnap" \
-            -backend-config="container_name=${{ secrets.project_prefix }}-container"
+            -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
+            -backend-config="container_name=${{ secrets.storage_account_name }}-container"
 
         - name: Terraform Plan
           if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -123,8 +123,8 @@ jobs:
         run: |
           terraform init \
           -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.project_prefix }}nicnap" \
-          -backend-config="container_name=${{ secrets.project_prefix }}-container"
+          -backend-config="storage_account_name=${{ secrets.storage_account_name }}nicnap" \
+          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
