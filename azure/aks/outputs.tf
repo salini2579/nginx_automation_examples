@@ -12,5 +12,5 @@ output "cluster_id" {
 }
 output "aks_host" {
   value = data.azurerm_kubernetes_cluster.aks.kube_config[0].host
-#  sensitive = true
+  sensitive = true
 }
