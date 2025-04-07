@@ -151,7 +151,7 @@ jobs:
     needs: terraform_aks
     defaults:
       run:
-        working-directory: ./nap
+        working-directory: ./azure/nap
     steps:
       - name: Checkout
         uses: actions/checkout@v4
