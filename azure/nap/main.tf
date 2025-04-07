@@ -28,7 +28,7 @@ provider "kubernetes" {
 #  load_config_file       = false
 
   exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
+    api_version = "client.authentication.k8s.io/v1"
     command     = "az"
     args = [
       "aks",
@@ -65,7 +65,7 @@ provider "helm" {
 #    load_config_file       = false
 
     exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
+      api_version = "client.authentication.k8s.io/v1"
       command     = "az"
       args = [
         "aks",
@@ -102,7 +102,7 @@ provider "kubectl" {
   load_config_file       = true
 
   exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
+    api_version = "client.authentication.k8s.io/v1"
     command     = "az"
     args = [
       "aks",
