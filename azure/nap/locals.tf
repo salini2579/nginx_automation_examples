@@ -1,5 +1,5 @@
 locals {
-  project_prefix         = data.terraform_remote_state.infra.outputs.project_prefix
+#  project_prefix         = data.terraform_remote_state.infra.outputs.project_prefix
 #  build_suffix            = data.terraform_remote_state.infra.outputs.build_suffix
   host                   = data.terraform_remote_state.aks.outputs.aks_host
   kubeconfig_certificate_authority_data = data.terraform_remote_state.aks.outputs.kubeconfig_certificate_authority_data
