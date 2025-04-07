@@ -24,7 +24,7 @@ provider "azurerm" {
 
 provider "kubernetes" {
   host                   = data.terraform_remote_state.aks.outputs.aks_host
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.aks.outputs.kubeconfig-certificate-authority-data)
+  cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
 #  load_config_file       = false
 
   exec {
@@ -61,7 +61,7 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     host                   = data.terraform_remote_state.aks.outputs.aks_host
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.aks.outputs.kubeconfig-certificate-authority-data)
+    cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
 #    load_config_file       = false
 
     exec {
@@ -97,7 +97,7 @@ provider "helm" {
 
 provider "kubectl" {
   host                   = data.terraform_remote_state.aks.outputs.aks_host
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.aks.outputs.kubeconfig-certificate-authority-data)
+  cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
 #  token                  = data.azuread_service_principal_token.token
   load_config_file       = true
 
