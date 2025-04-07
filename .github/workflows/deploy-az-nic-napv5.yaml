@@ -182,7 +182,6 @@ jobs:
         env:
            WORKSPACE_PATH: "./azure/nap"
 
-
       - name: Check Changes
         id: check_changes
         run: |
