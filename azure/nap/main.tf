@@ -23,10 +23,9 @@ provider "azurerm" {
 #}
 
 provider "kubernetes" {
-  host                   = data.terraform_remote_state.aks.outputs.aks_host
-  cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
+  host                   = local.host
+  cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
   token = local.token
-#  load_config_file       = false
 
   exec {
     api_version = "client.authentication.k8s.io/v1"
@@ -61,10 +60,9 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    host                   = data.terraform_remote_state.aks.outputs.aks_host
-    cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
+    host                   = local.host
+    cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
     token = local.token
-#    load_config_file       = false
 
     exec {
       api_version = "client.authentication.k8s.io/v1"
@@ -98,8 +96,8 @@ provider "helm" {
 #}
 
 provider "kubectl" {
-  host                   = data.terraform_remote_state.aks.outputs.aks_host
-  cluster_ca_certificate = base64decode(local.kubeconfig_certificate_authority_data)
+  host                   = local.host
+  cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
   token                  = local.token
   load_config_file       = false
 

@@ -14,8 +14,8 @@ output "aks_host" {
   value = data.azurerm_kubernetes_cluster.aks.kube_config[0].host
   sensitive = true
 }
-output "kubeconfig_certificate_authority_data" {
-  value = azurerm_kubernetes_cluster.aks.kube_config[0].cluster_ca_certificate
+output "cluster_ca_certificate" {
+  value = data.azurerm_kubernetes_cluster.aks.kube_config[0].cluster_ca_certificate
   sensitive = true
 }
 output "token" {
