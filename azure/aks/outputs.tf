@@ -18,3 +18,7 @@ output "kubeconfig_certificate_authority_data" {
   value = azurerm_kubernetes_cluster.aks.kube_config[0].cluster_ca_certificate
   sensitive = true
 }
+output "token" {
+  value = azurerm_kubernetes_cluster.aks.kube_config[0].token
+  sensitive = true
+}

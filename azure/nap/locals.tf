@@ -5,6 +5,7 @@ locals {
   kubeconfig_certificate_authority_data = data.terraform_remote_state.aks.outputs.kubeconfig_certificate_authority_data
   cluster_name           = data.terraform_remote_state.aks.outputs.cluster_name
   cluster_id           = data.terraform_remote_state.aks.outputs.cluster_id
+  token           = data.terraform_remote_state.aks.outputs.token
 #  cluster_token          = data.terraform_remote_state.aks.outputs.kubernetes_cluster_access_token
 #  cidr                   = data.terraform_remote_state.infra.outputs.cidr
 }
