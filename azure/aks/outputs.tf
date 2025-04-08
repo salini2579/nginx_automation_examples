@@ -19,6 +19,6 @@ output "cluster_ca_certificate" {
   sensitive = true
 }
 output "token" {
-  value = data.azurerm_kubernetes_cluster.aks.kube_config[0].token
+  value = data.azurerm_kubernetes_cluster.aks.kube_config[0].password
   sensitive = true
 }
