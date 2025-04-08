@@ -5,3 +5,6 @@ provider "azurerm" {
   client_secret   = jsondecode(var.azure_credentials)["clientSecret"]
   tenant_id       = jsondecode(var.azure_credentials)["tenantId"]
 }
+provider "azuread" {
+  tenant_id = jsondecode(var.azure_credentials)["tenantId"]
+}

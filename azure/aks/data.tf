@@ -12,3 +12,8 @@ data "azurerm_kubernetes_cluster" "aks" {
   name                = azurerm_kubernetes_cluster.aks.name
   resource_group_name = azurerm_kubernetes_cluster.aks.resource_group_name
 }
+data "azuread_service_principal_token" "aks_token" {
+  client_id     = jsondecode(var.azure_credentials)["clientId"]
+  client_secret   = jsondecode(var.azure_credentials)["clientSecret"]
+  tenant_id     = jsondecode(var.azure_credentials)["tenantId"]
+}
