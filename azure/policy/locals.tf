@@ -6,5 +6,5 @@ locals {
   cluster_name           = data.terraform_remote_state.aks.outputs.cluster_name
   cluster_id           = data.terraform_remote_state.aks.outputs.cluster_id
   token           = data.terraform_remote_state.aks.outputs.token
-  app                     = format("%s-nap-%s", var.project_prefix)
+  app                     = format("%s-nap", var.project_prefix)
 }
