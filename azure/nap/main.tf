@@ -6,29 +6,13 @@ provider "azurerm" {
   tenant_id       = jsondecode(var.azure_credentials)["tenantId"]
 }
 
-#provider "kubernetes" {
-#  host                   = data.terraform_remote_state.aks.outputs.aks_host
-#  cluster_ca_certificate = base64decode(data.terraform_remote_state.eks.outputs.kubeconfig-certificate-authority-data)
-#  token                  = data.aws_eks_cluster_auth.auth.token
-#  exec {
-#    api_version = "client.authentication.k8s.io/v1beta1"
-#    command     = "aws"
-#    args = [
-#      "eks",
-#      "get-token",
-#      "--cluster-name",
-#      data.terraform_remote_state.eks.outputs.cluster_name
-#    ]
-#  }
-#}
-
 provider "kubernetes" {
   host                   = local.host
   cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
   token = local.token
-#  load_config_file       = true
+
   exec {
-    api_version = "client.authentication.k8s.io/v1"
+    api_version = "client.authentication.k8s.io/v1beta1"
     command     = "az"
     args = [
       "aks",
@@ -40,24 +24,6 @@ provider "kubernetes" {
   }
 }
 
-#provider "helm" {
-#  kubernetes {
-#    host                   = data.terraform_remote_state.eks.outputs.cluster_endpoint
-#    cluster_ca_certificate = base64decode(data.terraform_remote_state.eks.outputs.kubeconfig-certificate-authority-data)
-#    token                  = data.aws_eks_cluster_auth.auth.token
-#    exec {
-#      api_version = "client.authentication.k8s.io/v1beta1"
-#      command     = "aws"
-#      args = [
-#        "eks",
-#        "get-token",
-#        "--cluster-name",
-#        data.terraform_remote_state.eks.outputs.cluster_name
-#      ]
-#    }
-#  }
-#}
-
 provider "helm" {
   kubernetes {
     host                   = local.host
@@ -65,7 +31,7 @@ provider "helm" {
     token = local.token
 
     exec {
-      api_version = "client.authentication.k8s.io/v1"
+      api_version = "client.authentication.k8s.io/v1beta1"
       command     = "az"
       args = [
         "aks",
@@ -78,23 +44,6 @@ provider "helm" {
   }
 }
 
-#provider "kubectl" {
-#  host                   = data.terraform_remote_state.eks.outputs.cluster_endpoint
-#  cluster_ca_certificate = base64decode(data.terraform_remote_state.eks.outputs.kubeconfig-certificate-authority-data)
-#  token                  = data.aws_eks_cluster_auth.auth.token
-#  load_config_file       = false
-#  exec {
-#    api_version = "client.authentication.k8s.io/v1beta1"
-#    command     = "aws"
-#    args = [
-#      "eks",
-#      "get-token",
-#      "--cluster-name",
-#      data.terraform_remote_state.eks.outputs.cluster_name
-#    ]
-#  }
-#}
-
 provider "kubectl" {
   host                   = local.host
   cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
@@ -102,7 +51,7 @@ provider "kubectl" {
   load_config_file       = false
 
   exec {
-    api_version = "client.authentication.k8s.io/v1"
+    api_version = "client.authentication.k8s.io/v1beta1"
     command     = "az"
     args = [
       "aks",
