@@ -21,7 +21,7 @@ data "terraform_remote_state" "aks" {
 }
 
 # Read nap state file
-data "terraform_remote_state" "aks" {
+data "terraform_remote_state" "nap" {
   backend = "azurerm"
   config = {
     resource_group_name = var.resource_group_name
@@ -32,7 +32,7 @@ data "terraform_remote_state" "aks" {
 }
 
 # Read policy state file
-data "terraform_remote_state" "aks" {
+data "terraform_remote_state" "policy" {
   backend = "azurerm"
   config = {
     resource_group_name = var.resource_group_name
