@@ -229,7 +229,7 @@ jobs:
     - name: Fetch AKS Cluster Name and Region
       run: |
         echo "RESOURCE_GROUP_NAME=${{ secrets.project_prefix }}-rg" >> $GITHUB_ENV
-        echo "CLUSTER_NAME=$data.terraform_remote_state.aks.outputs.cluster_name" >> $GITHUB_ENV
+        echo "CLUSTER_NAME=${{ secrets.project_prefix }}-aks" >> $GITHUB_ENV
       working-directory: ./azure/aks
 
     - name: Configure kubectl for Azure
