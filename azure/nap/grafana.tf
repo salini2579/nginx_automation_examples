@@ -1,5 +1,5 @@
 resource "helm_release" "grafana" {
-  name = format("%s-gfa", var.project_prefix)
+  name = format("%s-gfa-%s", var.project_prefix, local.build_suffix)
   repository = "https://grafana.github.io/helm-charts"
   chart = "grafana"
   version = "6.50.7"

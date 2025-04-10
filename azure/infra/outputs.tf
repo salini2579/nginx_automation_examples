@@ -25,3 +25,6 @@ output "azure_vnet_cidr" {
 output "azure_subnet_cidr" {
   value = var.azure_subnet_cidr
 }
+output "build_suffix" {
+  value = random_id.build_suffix.hex
+}

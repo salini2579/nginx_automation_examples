@@ -19,7 +19,6 @@ provider "kubernetes" {
       "get-credentials",
       "--resource-group", var.resource_group_name,
       "--name", data.terraform_remote_state.aks.outputs.cluster_name,
-#      "--admin"
     ]
   }
 }
@@ -38,7 +37,6 @@ provider "helm" {
         "get-credentials",
         "--resource-group", var.resource_group_name,
         "--name", data.terraform_remote_state.aks.outputs.cluster_name,
-#        "--admin"
       ]
     }
   }
@@ -58,7 +56,6 @@ provider "kubectl" {
       "get-credentials",
       "--resource-group", var.resource_group_name,
       "--name", data.terraform_remote_state.aks.outputs.cluster_name,
-#      "--admin"
     ]
   }
 }

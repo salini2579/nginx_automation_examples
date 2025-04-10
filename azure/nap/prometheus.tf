@@ -1,5 +1,5 @@
 resource "helm_release" "prometheus" {
-    name = format("%s-pro", var.project_prefix)
+    name = format("%s-pro-%s", var.project_prefix, local.build_suffix)
     repository = "https://prometheus-community.github.io/helm-charts"
     chart = "prometheus"
     #version = "27.3.0"
