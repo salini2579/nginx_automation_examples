@@ -143,7 +143,7 @@ jobs:
           WORKSPACE_PATH: "./azure/nap"
 
   terraform_aks:
-    name: "Destroy AWS AKS"
+    name: "Destroy AKS"
     runs-on: ubuntu-latest
     needs: terraform_nap
     defaults:
@@ -188,7 +188,7 @@ jobs:
         run: terraform destroy -auto-approve -input=false -lock=false
 
   terraform_infra:
-    name: "Destroy AWS Infra"
+    name: "Destroy Azure Infra"
     runs-on: ubuntu-latest
     needs: terraform_aks
     defaults:
@@ -233,33 +233,89 @@ jobs:
         run: terraform destroy -auto-approve -input=false -lock=false
 
 
-#  terraform_S3:
-#    name: "Delete S3/DynamoDB"
-#    needs: terraform_infra
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: ./s3
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Install jq
-#        run: sudo apt-get install -y jq
-#
-#      - name: Configure AWS Credentials
-#        uses: aws-actions/configure-aws-credentials@v3
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-#          aws-region: ${{ secrets.TF_VAR_AWS_REGION }}
-#
-#      - name: Set Bucket Name
-#        id: set_bucket
-#        run: |
-#          echo "bucket_name= ${{ secrets.TF_VAR_AWS_S3_BUCKET_NAME }}" >> $GITHUB_OUTPUT
-#
+  terraform_blob:
+    name: "Delete Blob"
+    needs: terraform_infra
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./azure/blob
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Configure Azure Credentials
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.azure_credentials }}
+
+      - name: Set Container Name
+        id: set_container
+        run: |
+          echo "container_name=$${{ secrets.storage_account_name }}-container" >> $GITHUB_OUTPUT
+
+      - name: Nuclear Azure Blob Container Deletion
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
+#          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        run: |
+          set -e
+          CONTAINER_NAME="${{ steps.set_container.outputs.container_name }}"
+          
+          echo "🔐 Logging into Azure Storage..."
+          az storage blob list \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --container-name $CONTAINER_NAME \
+            --auth-mode key \
+            --include snapshots versions \
+            --output json > blobs.json
+          
+          echo "🔥 Deleting ALL blobs, snapshots, and versions..."
+          cat blobs.json | jq -r '.[].name' | while read blob_name; do
+            echo "Deleting blob: $blob_name"
+            az storage blob delete \
+              --account-name $AZURE_STORAGE_ACCOUNT \
+              --container-name $CONTAINER_NAME \
+              --name "$blob_name" \
+              --delete-snapshots include \
+              --auth-mode key || true
+          done
+          
+          echo "🚀 Deleting container..."
+          az storage container delete \
+            --account-name $AZURE_STORAGE_ACCOUNT \
+            --name $CONTAINER_NAME \
+            --auth-mode key || true
+          
+          echo "🔍 Verifying container deletion..."
+          if az storage container show \
+              --account-name $AZURE_STORAGE_ACCOUNT \
+              --name $CONTAINER_NAME \
+              --auth-mode key &> /dev/null; then
+            echo "::error::Container $CONTAINER_NAME still exists after deletion attempts!"
+            exit 1
+          else
+            echo "✅ Container $CONTAINER_NAME successfully deleted"
+          fi
+          
+          echo "🚀 Deleting Resource Group..."
+          az group delete \
+            --name $RESOURCE_GROUP_NAME \
+            --yes --no-wait || true
+      
+          echo "🔍 Verifying Resource Group deletion..."
+          if az group show --name $RESOURCE_GROUP_NAME &> /dev/null; then
+            echo "::error::Resource Group $RESOURCE_GROUP_NAME still exists after deletion attempts!"
+            exit 1
+          else
+            echo "✅ Resource Group $RESOURCE_GROUP_NAME successfully deleted"
+          fi
+
+  #
 #      - name: Nuclear S3 Bucket Deletion
 #        run: |
 #          set -e
