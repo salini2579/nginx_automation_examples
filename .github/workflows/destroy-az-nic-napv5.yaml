@@ -252,19 +252,20 @@ jobs:
         with:
           creds: ${{ secrets.azure_credentials }}
 
-      - name: Set Container Name
-        id: set_container
-        run: |
-          echo "container_name=$${{ secrets.storage_account_name }}-container" >> $GITHUB_OUTPUT
+#      - name: Set Container Name
+#        id: set_container
+#        run: |
+#          echo "container_name=$${{ secrets.storage_account_name }}-container" >> $GITHUB_OUTPUT
 
       - name: Nuclear Azure Blob Container Deletion
         env:
           STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
           RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
+
 #          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
         run: |
           set -e
-          CONTAINER_NAME="${{ steps.set_container.outputs.container_name }}"
+          CONTAINER_NAME="${{ secrets.STORAGE_ACCOUNT_NAME }}-container"
           
           echo "🔐 Logging into Azure Storage..."
           az storage blob list \
