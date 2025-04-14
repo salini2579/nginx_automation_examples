@@ -272,7 +272,7 @@ jobs:
             --account-name $STORAGE_ACCOUNT_NAME \
             --container-name $CONTAINER_NAME \
             --auth-mode key \
-            --include snapshots versions \
+            --include snapshots \
             --output json > blobs.json
           
           echo "🔥 Deleting ALL blobs, snapshots, and versions..."
