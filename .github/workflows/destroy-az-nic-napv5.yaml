@@ -264,17 +264,25 @@ jobs:
 
         run: |
           set -e
+
+          # Set container name based on storage account
           CONTAINER_NAME="${{ secrets.STORAGE_ACCOUNT_NAME }}-container"
 
+          # Azure login should be done before running this script, using the az login or azure/login action in GitHub Actions
+
           echo "🔐 Logging into Azure Storage..."
+
+          # List blobs and snapshots in the container
           az storage blob list \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container-name $CONTAINER_NAME \
             --auth-mode login \
             --include snapshots \
             --output json > blobs.json
-          
+
           echo "🔥 Deleting ALL blobs, snapshots, and versions..."
+
+          # Loop through each blob and delete it, including snapshots
           cat blobs.json | jq -r '.[].name' | while read blob_name; do
             echo "Deleting blob: $blob_name"
             az storage blob delete \
@@ -284,13 +292,16 @@ jobs:
               --delete-snapshots include \
               --auth-mode login || true
           done
-          
+
+          # Clean up the blobs.json file
+          rm blobs.json
+
           echo "🚀 Deleting container..."
           az storage container delete \
             --account-name $STORAGE_ACCOUNT_NAME \
             --name $CONTAINER_NAME \
             --auth-mode login || true
-          
+
           echo "🔍 Verifying container deletion..."
           if az storage container show \
               --account-name $STORAGE_ACCOUNT_NAME \
@@ -301,19 +312,23 @@ jobs:
           else
             echo "✅ Container $CONTAINER_NAME successfully deleted"
           fi
-          
+
           echo "🚀 Deleting Resource Group..."
           az group delete \
             --name $RESOURCE_GROUP_NAME \
             --yes --no-wait || true
-      
+
           echo "🔍 Verifying Resource Group deletion..."
+          # Wait for a bit before verifying the resource group deletion
+          sleep 30  # Add a brief sleep to give Azure time to process deletion
+
           if az group show --name $RESOURCE_GROUP_NAME &> /dev/null; then
             echo "::error::Resource Group $RESOURCE_GROUP_NAME still exists after deletion attempts!"
             exit 1
           else
             echo "✅ Resource Group $RESOURCE_GROUP_NAME successfully deleted"
           fi
+  
 
   #
 #      - name: Nuclear S3 Bucket Deletion
