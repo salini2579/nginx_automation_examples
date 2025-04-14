@@ -283,13 +283,13 @@ jobs:
           
           echo "🔥 Deleting ALL blobs, snapshots, and versions..."
           cat blobs.json | jq -r '.[].name' | while read blob_name; do
-            echo "Deleting blob: $blob_name"
-            az storage blob delete \
-              --account-name $STORAGE_ACCOUNT_NAME \
-              --container-name $CONTAINER_NAME \
-              --name "$blob_name" \
-              --delete-snapshots include \
-              --auth-mode login || true
+          echo "Deleting blob: $blob_name"
+          az storage blob delete \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --container-name $CONTAINER_NAME \
+            --name "$blob_name" \
+            --delete-snapshots include \
+            --auth-mode login || true
           done
           
           echo "🚀 Deleting container..."
