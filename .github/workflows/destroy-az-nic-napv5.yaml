@@ -259,7 +259,7 @@ jobs:
 
       - name: Nuclear Azure Blob Container Deletion
         env:
-          AZURE_STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
           RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
 #          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
         run: |
@@ -278,7 +278,7 @@ jobs:
           cat blobs.json | jq -r '.[].name' | while read blob_name; do
             echo "Deleting blob: $blob_name"
             az storage blob delete \
-              --account-name $AZURE_STORAGE_ACCOUNT \
+              --account-name $STORAGE_ACCOUNT_NAME \
               --container-name $CONTAINER_NAME \
               --name "$blob_name" \
               --delete-snapshots include \
@@ -287,13 +287,13 @@ jobs:
           
           echo "🚀 Deleting container..."
           az storage container delete \
-            --account-name $AZURE_STORAGE_ACCOUNT \
+            --account-name $STORAGE_ACCOUNT_NAME \
             --name $CONTAINER_NAME \
             --auth-mode key || true
           
           echo "🔍 Verifying container deletion..."
           if az storage container show \
-              --account-name $AZURE_STORAGE_ACCOUNT \
+              --account-name $STORAGE_ACCOUNT_NAME \
               --name $CONTAINER_NAME \
               --auth-mode key &> /dev/null; then
             echo "::error::Container $CONTAINER_NAME still exists after deletion attempts!"
