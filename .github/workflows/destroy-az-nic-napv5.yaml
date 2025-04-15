@@ -252,10 +252,25 @@ jobs:
         with:
           creds: ${{ secrets.azure_credentials }}
 
-      - name: Nuclear Azure Blob Container Deletion
+      - name: 🔑 Get Storage Account Key
         env:
           STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
+          RESOURCE_GROUP_NAME: ${{ secrets.project_prefix }}-rg
+        id: get_key
+        run: |
+          echo "Fetching storage account key..."
+          STORAGE_KEY=$(az storage account keys list \
+            --resource-group $RESOURCE_GROUP_NAME \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --query "[0].value" \
+            --output tsv)
+          echo "::add-mask::$STORAGE_KEY"
+          echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
+
+      - name: Nuclear Azure Blob Container Deletion
+#        env:
+#          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+#          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
 
         run: |
           set -e
