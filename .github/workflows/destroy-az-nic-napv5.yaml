@@ -260,8 +260,8 @@ jobs:
         run: |
           echo "Fetching storage account key..."
           STORAGE_KEY=$(az storage account keys list \
-            --resource-group $TF_VAR_RESOURCE_GROUP_NAME \
-            --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+            --resource-group $RESOURCE_GROUP_NAME \
+            --account-name $STORAGE_ACCOUNT_NAME \
             --query "[0].value" \
             --output tsv)
           echo "::add-mask::$STORAGE_KEY"
@@ -336,3 +336,4 @@ jobs:
           else
             echo "✅ Resource Group $RESOURCE_GROUP_NAME successfully deleted"
           fi
+  
