@@ -253,28 +253,27 @@ jobs:
           creds: ${{ secrets.azure_credentials }}
 
       - name: 🔑 Get Storage Account Key
-#        env:
-#          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-#          RESOURCE_GROUP_NAME: ${{ secrets.project_prefix }}-rg
+        env:
+          STORAGE_ACCOUNT_NAME: $TF_VAR_STORAGE_ACCOUNT_NAME
+          RESOURCE_GROUP_NAME: $TF_VAR_RESOURCE_GROUP_NAME
         id: get_key
         run: |
           echo "Fetching storage account key..."
           STORAGE_KEY=$(az storage account keys list \
-            --resource-group $TF_VAR_RESOURCE_GROUP_NAME \
-            --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+            --resource-group $RESOURCE_GROUP_NAME \
+            --account-name $STORAGE_ACCOUNT_NAME \
             --query "[0].value" \
             --output tsv)
           echo "::add-mask::$STORAGE_KEY"
           echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
 
       - name: Nuclear Azure Blob Container Deletion
-#        env:
-#          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-#          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
 
         run: |
           set -e
-          CONTAINER_NAME="${{ secrets.STORAGE_ACCOUNT_NAME }}-container"
+          CONTAINER_NAME="$TF_VAR_CONTAINER_NAME"
+          STORAGE_ACCOUNT_NAME="$TF_VAR_STORAGE_ACCOUNT_NAME"
+          RESOURCE_GROUP_NAME="$TF_VAR_RESOURCE_GROUP_NAME"
 
           # Azure login should be done before running this script, using the az login or azure/login action in GitHub Actions
 
@@ -282,7 +281,7 @@ jobs:
 
           # List blobs and snapshots in the container
           az storage blob list \
-            --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+            --account-name $STORAGE_ACCOUNT_NAME \
             --container-name $CONTAINER_NAME \
             --account-key $STORAGE_KEY \
             --include sv \
@@ -294,7 +293,7 @@ jobs:
           cat blobs.json | jq -r '.[].name' | while read blob_name; do
             echo "Deleting blob: $blob_name"
             az storage blob delete \
-              --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+              --account-name $STORAGE_ACCOUNT_NAME \
               --container-name $CONTAINER_NAME \
               --account-key $STORAGE_KEY \
               --name "$blob_name" \
