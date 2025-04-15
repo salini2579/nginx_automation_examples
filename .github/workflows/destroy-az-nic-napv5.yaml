@@ -268,9 +268,9 @@ jobs:
           echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
 
       - name: Nuclear Azure Blob Container Deletion
-#        env:
-#          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-#          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
 
         run: |
           set -e
@@ -284,7 +284,7 @@ jobs:
           az storage blob list \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container-name $CONTAINER_NAME \
-            --auth-mode login \
+            --account-key $STORAGE_KEY \
             --include sv \
             --output json > blobs.json
 
@@ -296,9 +296,9 @@ jobs:
             az storage blob delete \
               --account-name $STORAGE_ACCOUNT_NAME \
               --container-name $CONTAINER_NAME \
+              --account-key $STORAGE_KEY \
               --name "$blob_name" \
-              --delete-snapshots include \
-              --auth-mode login || true
+              --delete-snapshots include || true
           done
 
           # Clean up the blobs.json file
@@ -307,14 +307,14 @@ jobs:
           echo "🚀 Deleting container..."
           az storage container delete \
             --account-name $STORAGE_ACCOUNT_NAME \
-            --name $CONTAINER_NAME \
-            --auth-mode login || true
+            --account-key $STORAGE_KEY \
+            --name $CONTAINER_NAME || true
 
           echo "🔍 Verifying container deletion..."
           if az storage container show \
               --account-name $STORAGE_ACCOUNT_NAME \
               --name $CONTAINER_NAME \
-              --auth-mode login &> /dev/null; then
+              --account-key $STORAGE_KEY &> /dev/null; then
             echo "::error::Container $CONTAINER_NAME still exists after deletion attempts!"
             exit 1
           else
