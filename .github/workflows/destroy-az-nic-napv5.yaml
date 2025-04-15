@@ -254,8 +254,8 @@ jobs:
 
       - name: 🔑 Get Storage Account Key
         env:
-          STORAGE_ACCOUNT_NAME: "$TF_VAR_STORAGE_ACCOUNT_NAME"
-          RESOURCE_GROUP_NAME: "$TF_VAR_RESOURCE_GROUP_NAME"
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          RESOURCE_GROUP_NAME: ${{ secrets.project_prefix }}-rg
         id: get_key
         run: |
           echo "Fetching storage account key..."
