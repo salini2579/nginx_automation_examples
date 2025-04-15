@@ -260,20 +260,21 @@ jobs:
         run: |
           echo "Fetching storage account key..."
           STORAGE_KEY=$(az storage account keys list \
-            --resource-group $RESOURCE_GROUP_NAME \
-            --account-name $STORAGE_ACCOUNT_NAME \
+            --resource-group $TF_VAR_RESOURCE_GROUP_NAME \
+            --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
             --query "[0].value" \
             --output tsv)
           echo "::add-mask::$STORAGE_KEY"
           echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
 
       - name: Nuclear Azure Blob Container Deletion
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
 
         run: |
           set -e
-          CONTAINER_NAME="$TF_VAR_CONTAINER_NAME"
-          STORAGE_ACCOUNT_NAME="$TF_VAR_STORAGE_ACCOUNT_NAME"
-          RESOURCE_GROUP_NAME="$TF_VAR_RESOURCE_GROUP_NAME"
+          CONTAINER_NAME="${{ secrets.STORAGE_ACCOUNT_NAME }}-container"
 
           # Azure login should be done before running this script, using the az login or azure/login action in GitHub Actions
 
@@ -305,13 +306,13 @@ jobs:
 
           echo "🚀 Deleting container..."
           az storage container delete \
-            --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+            --account-name $STORAGE_ACCOUNT_NAME \
             --account-key $STORAGE_KEY \
             --name $CONTAINER_NAME || true
 
           echo "🔍 Verifying container deletion..."
           if az storage container show \
-              --account-name $TF_VAR_STORAGE_ACCOUNT_NAME \
+              --account-name $STORAGE_ACCOUNT_NAME \
               --name $CONTAINER_NAME \
               --account-key $STORAGE_KEY &> /dev/null; then
             echo "::error::Container $CONTAINER_NAME still exists after deletion attempts!"
@@ -322,16 +323,16 @@ jobs:
 
           echo "🚀 Deleting Resource Group..."
           az group delete \
-            --name $TF_VAR_RESOURCE_GROUP_NAME \
+            --name $RESOURCE_GROUP_NAME \
             --yes --no-wait || true
 
           echo "🔍 Verifying Resource Group deletion..."
           # Wait for a bit before verifying the resource group deletion
           sleep 60  # Add a brief sleep to give Azure time to process deletion
 
-          if az group show --name $TF_VAR_RESOURCE_GROUP_NAME &> /dev/null; then
-            echo "::error::Resource Group $TF_VAR_RESOURCE_GROUP_NAME still exists after deletion attempts!"
+          if az group show --name $RESOURCE_GROUP_NAME &> /dev/null; then
+            echo "::error::Resource Group $RESOURCE_GROUP_NAME still exists after deletion attempts!"
             exit 1
           else
-            echo "✅ Resource Group $TF_VAR_RESOURCE_GROUP_NAME successfully deleted"
+            echo "✅ Resource Group $RESOURCE_GROUP_NAME successfully deleted"
           fi
