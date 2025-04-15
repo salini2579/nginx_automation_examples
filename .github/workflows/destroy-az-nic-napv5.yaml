@@ -328,7 +328,7 @@ jobs:
 
           echo "🔍 Verifying Resource Group deletion..."
           # Wait for a bit before verifying the resource group deletion
-          sleep 30  # Add a brief sleep to give Azure time to process deletion
+          sleep 60  # Add a brief sleep to give Azure time to process deletion
 
           if az group show --name $RESOURCE_GROUP_NAME &> /dev/null; then
             echo "::error::Resource Group $RESOURCE_GROUP_NAME still exists after deletion attempts!"
