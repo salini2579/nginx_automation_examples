@@ -14,6 +14,7 @@ variable "project_prefix" {
 }
 
 variable "resource_group_name" {
+  description = "Resource group name where all the resources will be deployed"
   type = string
 }
 
