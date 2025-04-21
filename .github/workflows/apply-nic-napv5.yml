@@ -206,7 +206,7 @@ jobs:
     needs: terraform_nap
     defaults:
       run:
-       working-directory: ./policy
+       working-directory: ./policy_dup
     steps:
     - name: Checkout
       uses: actions/checkout@v4

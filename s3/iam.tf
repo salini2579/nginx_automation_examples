@@ -20,7 +20,7 @@ resource "aws_iam_role" "terraform_execution_role" {
   })
 }
 
-# Create IAM policy if it doesn't exist
+# Create IAM policy_dup if it doesn't exist
 resource "aws_iam_policy" "terraform_state_access" {
   count = var.create_iam_resources ? 1 : 0
 
@@ -45,7 +45,7 @@ resource "aws_iam_policy" "terraform_state_access" {
   })
 }
 
-# Attach the policy to the IAM role
+# Attach the policy_dup to the IAM role
 resource "aws_iam_role_policy_attachment" "state_access" {
   count = var.create_iam_resources ? 1 : 0
 

@@ -31,7 +31,7 @@ data "terraform_remote_state" "nap" {
   }
 }
 
-# Read policy state file
+# Read policy_dup state file
 data "terraform_remote_state" "policy" {
   backend = "azurerm"
   config = {

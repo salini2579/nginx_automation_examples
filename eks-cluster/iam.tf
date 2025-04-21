@@ -90,7 +90,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
   role       = aws_iam_role.workernodes.name
 }
 
-# Removed the custom EBS policy and its attachment - using managed policy instead
+# Removed the custom EBS policy_dup and its attachment - using managed policy_dup instead
 
 # IAM Instance Profile (Unchanged)
 resource "aws_iam_instance_profile" "workernodes" {
@@ -135,7 +135,7 @@ resource "aws_iam_role" "ebs_csi_driver" {
 
 data "aws_caller_identity" "current" {}
 
-# Use the official AWS managed policy instead of custom one
+# Use the official AWS managed policy_dup instead of custom one
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   role       = aws_iam_role.ebs_csi_driver.name
