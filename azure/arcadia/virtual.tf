@@ -9,11 +9,11 @@ resource "kubernetes_manifest" "arcadia_virtualserver" {
     spec = {
       host = try(data.terraform_remote_state.nap.outputs.external_name)
 
-      # Reference the WAF policy_dup
+      # Reference the WAF policy
       policies = [
         {
-          name      = "waf-policy"  # Name of the WAF policy_dup
-          namespace = "default"     # Namespace where the WAF policy_dup is deployed
+          name      = "waf-policy"  # Name of the WAF policy
+          namespace = "default"     # Namespace where the WAF policy is deployed
         }
       ]
 

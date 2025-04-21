@@ -65,7 +65,7 @@ jobs:
     needs: terraform_arcadia
     defaults:
       run:
-        working-directory: ./azure/policy_dup
+        working-directory: ./azure/policy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
