@@ -26,7 +26,7 @@ output "terraform_execution_role_arn" {
   value       = var.create_iam_resources ? aws_iam_role.terraform_execution_role[0].arn : null
 }
 
-# Output the ARN of the created IAM policy (if created)
+# Output the ARN of the created IAM policy_dup (if created)
 output "terraform_state_access_policy_arn" {
   description = "The ARN of the IAM policy created for Terraform state access."
   value       = var.create_iam_resources ? aws_iam_policy.terraform_state_access[0].arn : null
@@ -38,7 +38,7 @@ output "terraform_execution_role_name" {
   value       = var.create_iam_resources ? aws_iam_role.terraform_execution_role[0].name : null
 }
 
-# Output the name of the created IAM policy (if created)
+# Output the name of the created IAM policy_dup (if created)
 output "terraform_state_access_policy_name" {
   description = "The name of the IAM policy created for Terraform state access."
   value       = var.create_iam_resources ? aws_iam_policy.terraform_state_access[0].name : null

@@ -101,7 +101,7 @@ The repository includes a default policy file named `policy.json`, which can be 
 
 ```hcl
 {
-    "policy": {
+    "policy_dup": {
         "name": "policy_name",
         "template": { "name": "POLICY_TEMPLATE_NGINX_BASE" },
         "applicationLanguage": "utf-8",

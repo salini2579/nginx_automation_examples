@@ -201,7 +201,7 @@ jobs:
     needs: terraform_nap
     defaults:
       run:
-       working-directory: ./azure/policy
+       working-directory: ./azure/policy_dup
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -283,21 +283,22 @@ jobs:
 
     - name: Ensure correct permissions for nap/charts directory
       run: |
-        sudo chown -R $USER:$USER ${{ github.workspace }}
-        sudo chmod -R 777 ${{ github.workspace }}
+        echo ${{ github.workspace }}/azure
+        sudo chown -R $USER:$USER ${{ github.workspace }}/azure
+        sudo chmod -R 777 ${{ github.workspace }}/azure
 
     - name: Run Docker Container as Root
       run: |
         docker run --rm \
             -v ${{ github.workspace }}:/workspace \
               waf-compiler-5.4.0:custom \
-            -p /workspace/policy/policy.json -o /workspace/policy/compiled_policy.tgz
+            -p /workspace/azure/policy/policy.json -o /workspace/azure/policy/compiled_policy.tgz
 
     - name: Fix permissions for compiled files
       run: |
-        sudo chown -R $USER:$USER ${{ github.workspace }}/policy
-        chmod 644 ${{ github.workspace }}/policy/compiled_policy.tgz
-        ls -lh ${{ github.workspace }}/policy
+        sudo chown -R $USER:$USER ${{ github.workspace }}/azure/policy
+        chmod 644 ${{ github.workspace }}/azure/policy/compiled_policy.tgz
+        ls -lh ${{ github.workspace }}/azure/policy
 
 
     - name: Copy Compiled Policy to NGINX Ingress Controller
@@ -307,7 +308,7 @@ jobs:
           echo "Error: NGINX Ingress Controller pod not found!"
           exit 1
         fi
-        kubectl cp ${{ github.workspace }}/policy/compiled_policy.tgz $NGINX_POD:/etc/app_protect/bundles/compiled_policy.tgz -n nginx-ingress
+        kubectl cp ${{ github.workspace }}azure//policy/compiled_policy.tgz $NGINX_POD:/etc/app_protect/bundles/compiled_policy.tgz -n nginx-ingress
 
     - name: Initialize Terraform (Azure Backend)
       run: |
