@@ -308,7 +308,7 @@ jobs:
           echo "Error: NGINX Ingress Controller pod not found!"
           exit 1
         fi
-        kubectl cp ${{ github.workspace }}azure//policy/compiled_policy.tgz $NGINX_POD:/etc/app_protect/bundles/compiled_policy.tgz -n nginx-ingress
+        kubectl cp ${{ github.workspace }}/azure/policy/compiled_policy.tgz $NGINX_POD:/etc/app_protect/bundles/compiled_policy.tgz -n nginx-ingress
 
     - name: Initialize Terraform (Azure Backend)
       run: |
