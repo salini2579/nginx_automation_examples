@@ -122,9 +122,9 @@ Back in GitHub, navigate to the Actions tab of your forked repo and monitor your
 
 ### STEP 5: Validation  
 
-Users can now access the application through the NGINX Ingress Controller Load Balancer, which enhances security for the backend application by implementing the configured Web Application Firewall (WAF) policies. This setup not only improves accessibility but also ensures that the application is protected from various web threats.
+Users can now access the application through the NGINX Ingress Controller Load Balancer IP, which enhances security for the backend application by implementing the configured Web Application Firewall (WAF) policies. This setup not only improves accessibility but also ensures that the application is protected from various web threats. The External IP can be found in the Outputs of Arcadia job.
 
-  ![IP](assets/ext_ip.jpg)
+   ![ip](assets/ext_ip.jpg)
 
 * With malicious attacks:
 
