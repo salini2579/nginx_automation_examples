@@ -1,14 +1,14 @@
 name: "NGINX NIC/NAPV5 Destroy in Azure"
 on:
   push:
-    branches: destroy-az-nic-napv5
+    branches: az-destroy-nic-napv5
 env:
-    TF_VAR_project_prefix : ${{ secrets.project_prefix }}
-    TF_VAR_azure_region: ${{ secrets.TF_VAR_AZURE_REGION }}
+    TF_VAR_project_prefix : ${{ vars.project_prefix }}
+    TF_VAR_azure_region: ${{ vars.azure_region }}
     TF_VAR_azure_credentials : ${{ secrets.azure_credentials }}
-    TF_VAR_resource_group_name : ${{ secrets.project_prefix }}-rg
-    TF_VAR_storage_account_name : ${{ secrets.storage_account_name }}
-    TF_VAR_container_name : ${{ secrets.storage_account_name }}-container
+    TF_VAR_resource_group_name : ${{ vars.project_prefix }}-rg
+    TF_VAR_storage_account_name : ${{ vars.storage_account_name }}
+    TF_VAR_container_name : ${{ vars.storage_account_name }}-container
 
 jobs:
   terraform_arcadia:
@@ -33,9 +33,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Validate
         run: terraform validate -no-color
@@ -56,7 +56,7 @@ jobs:
           fi
 
       - name: Terraform Destroy
-        if: github.event_name == 'push' && github.ref == 'refs/heads/destroy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-destroy-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform destroy -auto-approve -lock=false -input=false
 
   terraform_policy:
@@ -81,9 +81,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -lock=false
@@ -110,9 +110,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Plan (Destroy)
         run: |
@@ -133,7 +133,7 @@ jobs:
           fi
 
       - name: Terraform Destroy
-        if: github.event_name == 'push' && github.ref == 'refs/heads/destroy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-destroy-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: |
           terraform destroy -auto-approve -input=false -lock=false \
             -var="workspace_path=${{ env.WORKSPACE_PATH }}" \
@@ -164,9 +164,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Plan (Destroy)
         if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -184,7 +184,7 @@ jobs:
           fi
 
       - name: Terraform Destroy
-        if: github.event_name == 'push' && github.ref == 'refs/heads/destroy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-destroy-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform destroy -auto-approve -input=false -lock=false
 
   terraform_infra:
@@ -209,9 +209,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Plan (Destroy)
         if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -229,7 +229,7 @@ jobs:
           fi
 
       - name: Terraform Destroy
-        if: github.event_name == 'push' && github.ref == 'refs/heads/destroy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-destroy-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform destroy -auto-approve -input=false -lock=false
 
 
@@ -254,8 +254,8 @@ jobs:
 
       - name: 🔑 Get Storage Account Key
         env:
-          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-          RESOURCE_GROUP_NAME: ${{ secrets.project_prefix }}-rg
+          STORAGE_ACCOUNT_NAME: ${{ vars.storage_account_name }}
+          RESOURCE_GROUP_NAME: ${{ vars.project_prefix }}-rg
         id: get_key
         run: |
           echo "Fetching storage account key..."
@@ -269,12 +269,12 @@ jobs:
 
       - name: Nuclear Azure Blob Container Deletion
         env:
-          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-          RESOURCE_GROUP_NAME : ${{ secrets.project_prefix }}-rg
+          STORAGE_ACCOUNT_NAME: ${{ vars.storage_account_name }}
+          RESOURCE_GROUP_NAME : ${{ vars.project_prefix }}-rg
 
         run: |
           set -e
-          CONTAINER_NAME="${{ secrets.STORAGE_ACCOUNT_NAME }}-container"
+          CONTAINER_NAME="${{ vars.storage_account_name }}-container"
 
           # Azure login should be done before running this script, using the az login or azure/login action in GitHub Actions
 

@@ -19,7 +19,7 @@ Deploy NGINX Ingress Controller with App ProtectV5 in Azure
 This demo guide provides a comprehensive, step-by-step walkthrough for configuring the NGINX Ingress Controller alongside NGINX App Protect v5 on the Azure Cloud platform. It utilizes Terraform scripts to automate the deployment process, making it more efficient and streamlined. For further details, please refer the official [documentation](https://docs.nginx.com/nginx-ingress-controller/installation/integrations/). Also, you can find more insights in the DevCentral article [F5 NGINX Automation Examples [Part 1-Deploy F5 NGINX Ingress Controller with App ProtectV5]](https://community.f5.com/kb/technicalarticles/f5-nginx-automation-examples-part-1-deploy-f5-nginx-ingress-controller-with-app-/340500).
 
 ## Architecture Diagram
-![System Architecture](assets/azure.jpeg)
+
 
 ## Prerequisites
 * [NGINX Plus with App Protect and NGINX Ingress Controller license](https://www.nginx.com/free-trial-request/)
@@ -42,32 +42,41 @@ This demo guide provides a comprehensive, step-by-step walkthrough for configuri
 
 ## GitHub Configurations
 
-First of all, fork and clone the repo. Next, create the following GitHub Actions secrets in your forked repo.
+First of all, fork and clone the repo. Next, create the following GitHub Actions secrets and variable in your forked repo.
 
 ### How to Add Secrets
 
 1. Navigate to your GitHub repository
 2. Go to **Settings** → **Secrets and variables** → **Actions**
 3. Click **New repository secret**
-4. Enter the secret name exactly as shown above
-5. Paste the secret value
+4. Enter the secret name exactly as shown in the below table
+5. Enter the secret value
 6. Click **Add secret**
 
-This workflow requires the following secrets to be configured in your GitHub repository:
+### How to Add Variable
+
+1. Navigate to your GitHub repository
+2. Go to **Settings** → **Secrets and variables** → **Actions**
+3. Navigate to **Variables** tab
+3. Click **New repository variable**
+4. Enter the variable name exactly as shown in the below table
+5. Enter the variable value
+6. Click **Add variable**
+
+This workflow requires the following secrets and variable to be configured in your GitHub repository:
 
 ### Required Secrets
 
-| Secret Name            | Type    | Description                                                              
-|------------------------|---------|----------------------------------------------------------------------|
-| `AZURE_CREDENTIALS`    | Secret  | Azure credentials in json format {"clientId":"yout client ID","clientSecret":"your client secret","subscriptionId":"your subscription ID","tenantId":"your tenant ID"} |      
-| `AZURE_REGION`         | Secret  | Azure region name in which you would like to deploy your resources   |  
-| `STORAGE_ACCOUNT_NAME` | Secret  | Provide a unique name for storage account with only letters and no special characters |       
-| `NGINX_JWT`            | Secret  | JSON Web Token for NGINX license authentication                     |    
-| `NGINX_REPO_CRT`       | Secret  | NGINX Certificate                                                   | 
-| `NGINX_REPO_KEY`       | Secret  | Private key for securing HTTPS and verifying SSL/TLS certificates   |
-| `PROJECT_PREFIX`       | Secret  | Your project identifier name in lowercase letters only - this will be applied as a prefix to all assets | 
+| Secret Name            | Type     | Description                                                              
+|------------------------|----------|----------------------------------------------------------------------|
+| `AZURE_CREDENTIALS`    | Secret   | Azure credentials in json format {"clientId":"yout client ID","clientSecret":"your client secret","subscriptionId":"your subscription ID","tenantId":"your tenant ID"} |      
+| `AZURE_REGION`         | Variable | Azure region name in which you would like to deploy your resources   |  
+| `STORAGE_ACCOUNT_NAME` | Variable | Provide a unique name for storage account with only letters and no special characters |       
+| `NGINX_JWT`            | Secret   | JSON Web Token for NGINX license authentication                     |    
+| `NGINX_REPO_CRT`       | Secret   | NGINX Certificate                                                   | 
+| `NGINX_REPO_KEY`       | Secret   | Private key for securing HTTPS and verifying SSL/TLS certificates   |
+| `PROJECT_PREFIX`       | Variable | Your project identifier name in lowercase letters only - this will be applied as a prefix to all assets | 
 
-![secrets](assets/secrets.jpg)
 
 ## Workflow Runs
 
@@ -77,15 +86,15 @@ Check out a branch with the branch name as suggested below for the workflow you 
 
 **DEPLOY**
 
-  | Workflow          | Branch Name           |
-  | ----------------- | --------------------- |
-  |deploy-az-nic-napv5| deploy-az-nic-napv5   |
+  | Workflow           | Branch Name        |
+  |--------------------|--------------------|
+  | az-apply-nic-napv5 | az-apply-nic-napv5 |
 
 **DESTROY**
 
-  | Workflow           | Branch Name           |
-  | ------------------ | --------------------- |
-  |destroy-az-nic-napv5| destroy-az-nic-napv5  |
+  | Workflow             | Branch Name          |
+  |----------------------|----------------------|
+  | az-destroy-nic-napv5 | az-destroy-nic-napv5 |
 
 ### STEP 2: Policy 
 

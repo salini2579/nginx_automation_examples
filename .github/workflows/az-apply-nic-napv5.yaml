@@ -1,14 +1,14 @@
 name: " Deploy NGINX NIC/NAP-V5 in Azure"
 on:
   push:
-    branches: deploy-az-nic-napv5
+    branches: az-apply-nic-napv5
 env:
-    TF_VAR_project_prefix : ${{ secrets.project_prefix }}
-    TF_VAR_azure_region: ${{ secrets.azure_region }}
+    TF_VAR_project_prefix : ${{ vars.project_prefix }}
+    TF_VAR_azure_region: ${{ vars.azure_region }}
     TF_VAR_azure_credentials : ${{ secrets.azure_credentials }}
-    TF_VAR_resource_group_name : ${{ secrets.project_prefix }}-rg
-    TF_VAR_storage_account_name : ${{ secrets.storage_account_name }}
-    TF_VAR_container_name : ${{ secrets.storage_account_name }}-container
+    TF_VAR_resource_group_name : ${{ vars.project_prefix }}-rg
+    TF_VAR_storage_account_name : ${{ vars.storage_account_name }}
+    TF_VAR_container_name : ${{ vars.storage_account_name }}-container
 
 jobs:
   terraform_blob:
@@ -46,7 +46,7 @@ jobs:
           fi
 
       - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform apply -auto-approve tfplan
 
 
@@ -75,9 +75,9 @@ jobs:
         - name: Initialize Terraform (Azure Backend)
           run: |
             terraform init \
-            -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-            -backend-config="storage_account_name=${{ secrets.storage_account_name}}" \
-            -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+            -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+            -backend-config="storage_account_name=${{ vars.storage_account_name}}" \
+            -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
         - name: Terraform Plan
           if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -95,7 +95,7 @@ jobs:
             fi
 
         - name: Terraform Apply
-          if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+          if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
           run: terraform apply -auto-approve tfplan
 
   terraform_aks:
@@ -122,9 +122,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name }}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name }}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -142,7 +142,7 @@ jobs:
           fi
 
       - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform apply -auto-approve tfplan
 
   terraform_nap:
@@ -167,9 +167,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name }}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name }}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
@@ -192,7 +192,7 @@ jobs:
           fi
 
       - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform apply -auto-approve -lock=false tfplan
 
   terraform_policy:
@@ -217,9 +217,9 @@ jobs:
     - name: Initialize Terraform (Azure Backend)
       run: |
         terraform init \
-        -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-        -backend-config="storage_account_name=${{ secrets.storage_account_name }}" \
-        -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+        -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+        -backend-config="storage_account_name=${{ vars.storage_account_name }}" \
+        -backend-config="container_name=${{ vars.storage_account_name }}-container"
       working-directory: ./azure/aks
 
     - name: Print AKS Terraform Outputs
@@ -228,7 +228,7 @@ jobs:
 
     - name: Fetch AKS Cluster Name and Region
       run: |
-        echo "RESOURCE_GROUP_NAME=${{ secrets.project_prefix }}-rg" >> $GITHUB_ENV
+        echo "RESOURCE_GROUP_NAME=${{ vars.project_prefix }}-rg" >> $GITHUB_ENV
         echo "CLUSTER_NAME=$(terraform output -raw cluster_name)" >> $GITHUB_ENV
       working-directory: ./azure/aks
 
@@ -313,9 +313,9 @@ jobs:
     - name: Initialize Terraform (Azure Backend)
       run: |
         terraform init \
-        -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-        -backend-config="storage_account_name=${{ secrets.storage_account_name }}" \
-        -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+        -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+        -backend-config="storage_account_name=${{ vars.storage_account_name }}" \
+        -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
     - name: Terraform Plan
       run: |
@@ -332,7 +332,7 @@ jobs:
         fi
 
     - name: Terraform Apply
-      if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
       run: terraform apply -auto-approve tfplan
 
   terraform_arcadia:
@@ -357,9 +357,9 @@ jobs:
       - name: Initialize Terraform (Azure Backend)
         run: |
           terraform init \
-          -backend-config="resource_group_name=${{ secrets.project_prefix }}-rg" \
-          -backend-config="storage_account_name=${{ secrets.storage_account_name }}" \
-          -backend-config="container_name=${{ secrets.storage_account_name }}-container"
+          -backend-config="resource_group_name=${{ vars.project_prefix }}-rg" \
+          -backend-config="storage_account_name=${{ vars.storage_account_name }}" \
+          -backend-config="container_name=${{ vars.storage_account_name }}-container"
 
       - name: Terraform Validate
         run: terraform validate -no-color
@@ -380,7 +380,7 @@ jobs:
           fi
 
       - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-az-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/az-apply-nic-napv5' && steps.check_changes.outputs.has_changes == 'true'
         run: terraform apply -auto-approve tfplan
 
       - name: Get Terraform Outputs
