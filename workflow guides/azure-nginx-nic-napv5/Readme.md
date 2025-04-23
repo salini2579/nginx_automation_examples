@@ -9,7 +9,8 @@ Deploy NGINX Ingress Controller with App ProtectV5 in Azure
   - [Tools](#tools)
   - [GitHub Configurations](#github-configurations)
     - [How to Add Secrets](#how-to-add-secrets)
-    - [Required Secrets](#required-secrets)
+    - [How to Add Variables](#how-to-add-variables)
+    - [Required Secrets and Variables](#required-secrets-and-variables)
   - [Workflow Runs](#workflow-runs)
   - [Support](#support)
   - [Copyright](#copyright)
@@ -53,7 +54,7 @@ First of all, fork and clone the repo. Next, create the following GitHub Actions
 5. Enter the secret value
 6. Click **Add secret**
 
-### How to Add Variable
+### How to Add Variables
 
 1. Navigate to your GitHub repository
 2. Go to **Settings** → **Secrets and variables** → **Actions**
@@ -65,7 +66,7 @@ First of all, fork and clone the repo. Next, create the following GitHub Actions
 
 This workflow requires the following secrets and variable to be configured in your GitHub repository:
 
-### Required Secrets
+### Required Secrets and Variables
 
 | Secret Name            | Type     | Description                                                                                                                                                            |
 |------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -77,6 +78,7 @@ This workflow requires the following secrets and variable to be configured in yo
 | `NGINX_REPO_KEY`       | Secret   | Private key for securing HTTPS and verifying SSL/TLS certificates                                                                                                      |
 | `PROJECT_PREFIX`       | Variable | Your project identifier name in lowercase letters only - this will be applied as a prefix to all assets                                                                | 
 
+ ![secrets](assets/secrets.jpg)     ![variables](assets/variables.jpg)
 
 ## Workflow Runs
 
@@ -126,7 +128,7 @@ Commit the changes and push your deploy branch to the forked repo
 
 Back in GitHub, navigate to the Actions tab of your forked repo and monitor your build. Once the pipeline completes, verify your assets were deployed in Azure
 
-  ![deploy](assets/deploy.j)
+  ![deploy](assets/deploy.jpg)
 
 
 ### STEP 5: Validation  
