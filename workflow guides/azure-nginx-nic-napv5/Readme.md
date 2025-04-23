@@ -67,15 +67,15 @@ This workflow requires the following secrets and variable to be configured in yo
 
 ### Required Secrets
 
-| Secret Name            | Type     | Description                                                              
-|------------------------|----------|----------------------------------------------------------------------|
+| Secret Name            | Type     | Description                                                                                                                                                            |
+|------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `AZURE_CREDENTIALS`    | Secret   | Azure credentials in json format {"clientId":"yout client ID","clientSecret":"your client secret","subscriptionId":"your subscription ID","tenantId":"your tenant ID"} |      
-| `AZURE_REGION`         | Variable | Azure region name in which you would like to deploy your resources   |  
-| `STORAGE_ACCOUNT_NAME` | Variable | Provide a unique name for storage account with only letters and no special characters |       
-| `NGINX_JWT`            | Secret   | JSON Web Token for NGINX license authentication                     |    
-| `NGINX_REPO_CRT`       | Secret   | NGINX Certificate                                                   | 
-| `NGINX_REPO_KEY`       | Secret   | Private key for securing HTTPS and verifying SSL/TLS certificates   |
-| `PROJECT_PREFIX`       | Variable | Your project identifier name in lowercase letters only - this will be applied as a prefix to all assets | 
+| `AZURE_REGION`         | Variable | Azure region name in which you would like to deploy your resources                                                                                                     |  
+| `STORAGE_ACCOUNT_NAME` | Variable | Provide a unique name for storage account with only letters and no special characters                                                                                  |       
+| `NGINX_JWT`            | Secret   | JSON Web Token for NGINX license authentication                                                                                                                        |    
+| `NGINX_REPO_CRT`       | Secret   | NGINX Certificate                                                                                                                                                      | 
+| `NGINX_REPO_KEY`       | Secret   | Private key for securing HTTPS and verifying SSL/TLS certificates                                                                                                      |
+| `PROJECT_PREFIX`       | Variable | Your project identifier name in lowercase letters only - this will be applied as a prefix to all assets                                                                | 
 
 
 ## Workflow Runs
@@ -111,7 +111,7 @@ The repository includes a default policy file named `policy.json`, which can be 
 }
 ```
  
-Users have the option to utilize the existing policy or, if preferred, create a custom policy. To do this, place the custom policy in the designated policy folder and name it `policy.json` or any name you choose. If you decide to use a different name, update the corresponding name in the [`deploy-az-nic-napv5.yml`](https://github.com/f5devcentral/nginx_automation_examples/blob/main/.github/workflows/deploy-az-nic-napv5.yml) and  [`destroy-az-nic-napv5.yml`](https://github.com/f5devcentral/nginx_automation_examples/blob/main/.github/workflows/destroy-az-nic-napv5.yml) workflow files accordingly.
+Users have the option to utilize the existing policy or, if preferred, create a custom policy. To do this, place the custom policy in the designated policy folder and name it `policy.json` or any name you choose. If you decide to use a different name, update the corresponding name in the [`az-apply-nic-napv5.yml`](https://github.com/f5devcentral/nginx_automation_examples/blob/main/.github/workflows/deploy-az-nic-napv5.yml) and  [`az-destroy-nic-napv5.yml`](https://github.com/f5devcentral/nginx_automation_examples/blob/main/.github/workflows/destroy-az-nic-napv5.yml) workflow files accordingly.
 
 In the workfiles, locate the terraform_policy job and rename `policy.json` to your preferred name if you've decided to change it.
   
@@ -126,7 +126,7 @@ Commit the changes and push your deploy branch to the forked repo
 
 Back in GitHub, navigate to the Actions tab of your forked repo and monitor your build. Once the pipeline completes, verify your assets were deployed in Azure
 
-  ![deploy](assets/deploy.jpg)
+  ![deploy](assets/deploy.j)
 
 
 ### STEP 5: Validation  
