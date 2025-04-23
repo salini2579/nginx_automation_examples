@@ -137,7 +137,7 @@ Users can now access the application through the NGINX Ingress Controller Load B
 
   ![IP](assets/ext_ip.jpg)
 
-* With malicious attacks:
+* Access the application:
 
   ![arcadia](assets/arcadia.jpg)
 
