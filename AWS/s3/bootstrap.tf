@@ -12,7 +12,6 @@ data "external" "bucket_check" {
       echo '{"exists":"false", "message":"Bucket not found"}'
     else
       echo '{"exists":"error", "message":"'$(echo "$output" | tr -d '\n')'"}'
-      exit 1
     fi
   EOT
   ]
