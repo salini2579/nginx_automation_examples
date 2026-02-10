@@ -24,21 +24,21 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = local.host
     cluster_ca_certificate = base64decode(local.cluster_ca_certificate)
     token = local.token
 
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "az"
-      args = [
-        "aks",
-        "get-credentials",
-        "--resource-group", var.resource_group_name,
-        "--name", data.terraform_remote_state.aks.outputs.cluster_name,
-      ]
-    }
+#    exec {
+#      api_version = "client.authentication.k8s.io/v1beta1"
+#      command     = "az"
+#      args = [
+#        "aks",
+#        "get-credentials",
+#        "--resource-group", var.resource_group_name,
+#        "--name", data.terraform_remote_state.aks.outputs.cluster_name,
+#      ]
+#    }
   }
 }
 
