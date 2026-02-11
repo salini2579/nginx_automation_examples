@@ -1,4 +1,4 @@
-resource "kubernetes_secret" "nginx_license" {
+resource "kubernetes_secret_v1" "nginx_license" {
   metadata {
     name      = "license-token"
     namespace = kubernetes_namespace_v1.nginx-ingress.metadata[0].name
@@ -9,7 +9,7 @@ resource "kubernetes_secret" "nginx_license" {
   type = "nginx.com/license"
 }
 
-resource "kubernetes_secret" "docker-registry" {
+resource "kubernetes_secret_v1" "docker-registry" {
   metadata {
     name      = "regcred"
     namespace = kubernetes_namespace_v1.nginx-ingress.metadata[0].name
