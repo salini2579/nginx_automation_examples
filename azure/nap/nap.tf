@@ -5,9 +5,12 @@ resource "helm_release" "nginx-plus-ingress" {
   version    = "2.0.1"
   namespace  = kubernetes_namespace_v1.nginx-ingress.metadata[0].name
   values     = [file("./charts/nginx-app-protect/values.yaml")]
-  timeout    = 600
+  timeout    = 900
+  wait       = true
 
   depends_on = [
-    kubernetes_secret.docker-registry
+    kubernetes_secret.docker-registry,
+    kubernetes_namespace_v1.nginx-ingress,
+    kubernetes_secret.nginx_license
   ]
 }
