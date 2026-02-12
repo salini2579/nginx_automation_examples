@@ -2,7 +2,7 @@ resource "helm_release" "nginx-plus-ingress" {
   name       = format("%s-nap-%s", var.project_prefix, local.build_suffix)
   repository = "https://helm.nginx.com/stable"
   chart      = "nginx-ingress"
-  version    = "2.4.3"
+  version    = "2.0.1"
   namespace  = kubernetes_namespace_v1.nginx-ingress.metadata[0].name
   values     = [file("./charts/nginx-app-protect/values.yaml")]
   timeout    = 900
